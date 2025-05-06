@@ -48,7 +48,7 @@ export const products: Product[] = [
     image: "https://images.pexels.com/photos/143133/pexels-photo-143133.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     category: "root-vegetables",
     stock: 100,
-    unit: "lb",
+    unit: "g",
     nutritionFacts: {
       calories: 41,
       protein: 0.9,

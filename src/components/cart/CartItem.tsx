@@ -34,7 +34,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
       <div className="ml-4 flex-1">
         <h3 className="text-base font-medium text-neutral-800">{item.name}</h3>
-        <p className="mt-1 text-sm text-neutral-500">${item.price.toFixed(2)} / {item.unit}</p>
+        <p className="mt-1 text-sm text-neutral-500">Rs.{item.price.toFixed(2)} / {item.unit}</p>
       </div>
 
       <div className="flex items-center border border-neutral-300 rounded-md">
@@ -59,7 +59,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
       <div className="ml-4 text-right min-w-[80px]">
         <p className="text-base font-medium text-neutral-800">
-          ${(item.price * item.quantity).toFixed(2)}
+          Rs.{(item.price * item.quantity).toFixed(2)}
         </p>
       </div>
 
