@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
             </div>
             <p className="text-primary-100 mb-4">
               Farm-fresh vegetables and groceries delivered straight to your doorstep.
-              Supporting local farmers since 2020.
+              Supporting local farmers since 2025.
             </p>
             <div className="flex space-x-4">
               <a href="https://facebook.com" className="text-primary-200 hover:text-white transition-colors">
@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-primary-300 mt-0.5 mr-2" />
-                <span className="text-primary-100">123 Green Valley Road, Farmington, CA 90250</span>
+                <span className="text-primary-100">Mumbai, India -  Tanush, Satyam, Nishita, Shreyansh</span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 text-primary-300 mr-2" />

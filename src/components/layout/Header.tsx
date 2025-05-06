@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Leaf, Search, User } from 'lucide-react';
+import { ShoppingCart, Menu, X, Leaf, Search, User, LogOut } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const { getItemCount } = useCart();
   const location = useLocation();
 
@@ -37,6 +37,12 @@ const Header: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleLogout = () => {
+    logout();
+    // Close the mobile menu after logout
+    setIsMenuOpen(false);
+  };
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -61,15 +67,9 @@ const Header: React.FC = () => {
             <Link to="/shop" className="text-neutral-800 hover:text-primary-600 transition-colors">
               Shop
             </Link>
-            <Link to="/shop" className="text-neutral-800 hover:text-primary-600 transition-colors">
-              Categories
-            </Link>
-            <Link to="/" className="text-neutral-800 hover:text-primary-600 transition-colors">
-              About
-            </Link>
           </nav>
 
-          {/* Search, Cart, and User Icons */}
+          {/* Search, Cart, User Icons and Logout */}
           <div className="hidden md:flex items-center space-x-4">
             <button className="p-2 text-neutral-700 hover:text-primary-600 transition-colors">
               <Search className="h-5 w-5" />
@@ -83,9 +83,18 @@ const Header: React.FC = () => {
               )}
             </Link>
             {isAuthenticated ? (
-              <Link to="/profile" className="p-2 text-neutral-700 hover:text-primary-600 transition-colors">
-                <User className="h-5 w-5" />
-              </Link>
+              <>
+                <Link to="/profile" className="p-2 text-neutral-700 hover:text-primary-600 transition-colors">
+                  <User className="h-5 w-5" />
+                </Link>
+                <button 
+                  onClick={handleLogout}
+                  className="p-2 text-neutral-700 hover:text-primary-600 transition-colors"
+                  aria-label="Logout"
+                >
+                  <LogOut className="h-5 w-5" />
+                </button>
+              </>
             ) : (
               <Link to="/login" className="p-2 text-neutral-700 hover:text-primary-600 transition-colors">
                 <User className="h-5 w-5" />
@@ -126,16 +135,18 @@ const Header: React.FC = () => {
               <Link to="/shop" className="text-neutral-800 hover:text-primary-600 transition-colors py-2">
                 Shop
               </Link>
-              <Link to="/shop" className="text-neutral-800 hover:text-primary-600 transition-colors py-2">
-                Categories
-              </Link>
-              <Link to="/" className="text-neutral-800 hover:text-primary-600 transition-colors py-2">
-                About
-              </Link>
               {isAuthenticated ? (
-                <Link to="/profile" className="text-neutral-800 hover:text-primary-600 transition-colors py-2">
-                  My Profile
-                </Link>
+                <>
+                  <Link to="/profile" className="text-neutral-800 hover:text-primary-600 transition-colors py-2">
+                    My Profile
+                  </Link>
+                  <button 
+                    onClick={handleLogout}
+                    className="text-left text-neutral-800 hover:text-primary-600 transition-colors py-2"
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
                 <Link to="/login" className="text-neutral-800 hover:text-primary-600 transition-colors py-2">
                   Login / Register

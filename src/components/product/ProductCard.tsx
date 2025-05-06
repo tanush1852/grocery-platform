@@ -50,7 +50,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           
           <div className="flex justify-between items-center mt-2">
             <span className="text-lg font-bold text-neutral-900">
-              ${product.price.toFixed(2)}
+              Rs.{product.price.toFixed(2)}
               <span className="text-sm font-normal text-neutral-500 ml-1">/ {product.unit}</span>
             </span>
             

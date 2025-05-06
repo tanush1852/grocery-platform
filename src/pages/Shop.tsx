@@ -9,24 +9,43 @@ const Shop: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [showFilters, setShowFilters] = useState(false);
+  const [sortOrder, setSortOrder] = useState('relevance');
 
+  // This effect runs when selectedCategory, searchQuery, or sortOrder changes
   useEffect(() => {
-    let result = getProductsByCategory(selectedCategory);
+    // First get products by category
+    let result = selectedCategory === 'all' ? [...products] : getProductsByCategory(selectedCategory);
     
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
+    // Then apply search filter if there is a query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
       result = result.filter(product => 
         product.name.toLowerCase().includes(query) || 
         product.description.toLowerCase().includes(query)
       );
     }
     
+    // Apply sorting
+    switch (sortOrder) {
+      case 'price-low':
+        result = [...result].sort((a, b) => a.price - b.price);
+        break;
+      case 'price-high':
+        result = [...result].sort((a, b) => b.price - a.price);
+        break;
+      case 'name':
+        result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      // default is relevance, no additional sorting needed
+    }
+    
     setFilteredProducts(result);
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, sortOrder]); // Include all dependencies
 
   const resetFilters = () => {
     setSelectedCategory('all');
     setSearchQuery('');
+    setSortOrder('relevance');
   };
 
   return (
@@ -75,6 +94,17 @@ const Shop: React.FC = () => {
               <div>
                 <h4 className="font-medium text-neutral-700 mb-2">Categories</h4>
                 <div className="space-y-2">
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="category"
+                      value="all"
+                      checked={selectedCategory === 'all'}
+                      onChange={() => setSelectedCategory('all')}
+                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300"
+                    />
+                    <span className="ml-2 text-neutral-700">All Products</span>
+                  </label>
                   {categories.map(category => (
                     <label 
                       key={category.id} 
@@ -104,7 +134,11 @@ const Shop: React.FC = () => {
               <p className="text-neutral-700">
                 Showing {filteredProducts.length} products
               </p>
-              <select className="border border-neutral-300 rounded-md p-2 text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+              <select 
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+                className="border border-neutral-300 rounded-md p-2 text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              >
                 <option value="relevance">Most Relevant</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
